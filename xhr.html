@@ -1,13 +1,38 @@
 <html>
 <head>
+  <style>
+    #content {
+    }
+    .card {
+      /* Add shadows to create the "card" effect */
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+      border-radius: 5px; /* 5px rounded corners */
+      margin: 6px 4em;
+    }
+    /* On mouse-over, add a deeper shadow */
+    .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+    /* Add some padding inside the card container */
+    .container {
+        padding: 2px 16px;
+    }
+
+    /* Add rounded corners to the top left and the top right corner of the image */
+    img {
+      border-radius: 5px 5px 0 0;
+      width: 15%;
+    }
+
+  </style>
   <script>
-    console.log("Innan anrop");
     var res;
 
     document.addEventListener('DOMContentLoaded', function (){
-      var rubrik = document.getElementsByTagName('H1');
-      var content = document.getElementById("content");
-
+      var pName = document.getElementsByClassName('productName');
+      var pPrice = document.getElementsByClassName("productPrice");
       var req = new XMLHttpRequest();
 
       req.onreadystatechange = function() {
@@ -16,7 +41,21 @@
           if (req.status == 200) {
             console.log(req.response);
             res = req.response;
-            content.innerHTML = res.products[5].name;
+            res.products.forEach(function(product,index ) {
+
+              let card = document.createElement("DIV");
+              card.classList.add("card");
+              card.id = index;
+              content.appendChild(card);
+              var cardContent = `
+                <img src="https://media.rs-online.com/t_large/Y1750897-01.jpg" />
+                <div class="container">
+                  <h4> ${product.name} </h4>
+                  <p> ${product.consumerPrice} </p>
+                </div>
+              `;
+              document.getElementById(card.id).innerHTML = cardContent;
+            });
           }
         }
       };
@@ -26,12 +65,12 @@
       req.send();
 
     });
-    console.log(req.response);
 
   </script>
 </head>
 <body>
   <h1></h1>
-  <div id="content"></div>
+  <div id="content">
+  </div>
 </body>
 </html>
