@@ -1,0 +1,37 @@
+<html>
+<head>
+  <script>
+    console.log("Innan anrop");
+    var res;
+
+    document.addEventListener('DOMContentLoaded', function (){
+      var rubrik = document.getElementsByTagName('H1');
+      var content = document.getElementById("content");
+
+      var req = new XMLHttpRequest();
+
+      req.onreadystatechange = function() {
+        // Har begäran kommit fram och fått svar?
+        if (req.readyState == 4) {
+          if (req.status == 200) {
+            console.log(req.response);
+            res = req.response;
+            content.innerHTML = res.products[5].name;
+          }
+        }
+      };
+
+      req.open("GET", "https://www.hulabeck.se/html/temp/products.json");
+      req.responseType = 'json';
+      req.send();
+
+    });
+    console.log(req.response);
+
+  </script>
+</head>
+<body>
+  <h1></h1>
+  <div id="content"></div>
+</body>
+</html>
